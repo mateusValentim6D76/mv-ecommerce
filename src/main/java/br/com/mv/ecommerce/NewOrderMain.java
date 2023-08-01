@@ -13,10 +13,10 @@ public class NewOrderMain {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         var producer = new KafkaProducer<String, String>(properties());
         var sales = new HashMap<>();
-        sales.put("iPhone14Pro","14000");
-        sales.put("MacBook Pro 256GB","27000");
-        //var value = "123456, 454872, 78964, 96578";
-        var record = new ProducerRecord<String, String>("ECOMMERCE_NEW_ORDER", sales.toString());
+        //sales.put("iPhone11Pro","4000");
+        //sales.put("MacBook Pro 256GB","27000");
+        var value = "123456, 454872, 78964, 96578";
+        var record = new ProducerRecord<String, String>("ECOMMERCE_NEW_ORDER", value, value);
         producer.send(record, (metadata, exception) -> {
             if (exception != null){
                 exception.printStackTrace();
