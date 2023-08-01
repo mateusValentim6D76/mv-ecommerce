@@ -1,5 +1,6 @@
 package br.com.mv.ecommerce;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -17,13 +18,17 @@ public class NewOrderMain {
         //sales.put("MacBook Pro 256GB","27000");
         var value = "123456, 454872, 78964, 96578";
         var record = new ProducerRecord<String, String>("ECOMMERCE_NEW_ORDER", value, value);
-        producer.send(record, (metadata, exception) -> {
-            if (exception != null){
+        producer.send(record, getCallback()).get();
+    }
+
+    private static Callback getCallback() {
+        return (metadata, exception) -> {
+            if (exception != null) {
                 exception.printStackTrace();
                 return;
             }
             System.out.println("Success! sending message " + metadata.topic() + ":::partition" + metadata.partition() + "/offset " + metadata.offset() + "/ timestamp" + metadata.timestamp());
-        }).get();
+        };
     }
 
     private static Properties properties(){
