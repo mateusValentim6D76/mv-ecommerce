@@ -14,8 +14,7 @@ import java.util.concurrent.ExecutionException;
 public class NewOrderMain {
     public static <producer> void main(String[] args) throws ExecutionException, InterruptedException {
         long startTime = System.currentTimeMillis();
-        var numInterations = 100;
-        for (int i = 0; i < numInterations; i++) {
+        for (int i = 0; i < 10; i++) {
             var key = UUID.randomUUID().toString();
             var producer = new KafkaProducer<String, String>(properties());
             //var sales = new HashMap<>();

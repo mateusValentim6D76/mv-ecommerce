@@ -16,10 +16,10 @@ public class FraudDetectorService {
         consumer.subscribe(Collections.singletonList("ECOMMERCE_NEW_ORDER"));
         // Verificação se há mensagens
         while (true) {
-            final var  records = consumer.poll(Duration.ofMillis(100));
+            final var records = consumer.poll(Duration.ofMillis(100));
             if (!records.isEmpty()) {
                 System.out.println("Records found " + records.count() + " registers");
-                for (var record: records){
+                for (var record : records) {
                     System.out.println("----------------------------");
                     System.out.println("Processing new order, checking fraud");
                     System.out.println(record.key());
@@ -27,7 +27,7 @@ public class FraudDetectorService {
                     System.out.println(record.offset());
                     try {
                         Thread.sleep(5000);
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         //ignore
                         e.printStackTrace();
                     }
@@ -36,13 +36,15 @@ public class FraudDetectorService {
             }
         }
     }
+
     private static Properties properties() {
         var properties = new Properties();
         properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, FraudDetectorService.class.getSimpleName());
-        properties.setProperty(ConsumerConfig.CLIENT_ID_CONFIG, FraudDetectorService.class.getSimpleName() +" "+UUID.randomUUID().toString());
+        properties.setProperty(ConsumerConfig.CLIENT_ID_CONFIG, FraudDetectorService.class.getSimpleName() + " " + UUID.randomUUID().toString());
+        properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1");
         return properties;
     }
 }
