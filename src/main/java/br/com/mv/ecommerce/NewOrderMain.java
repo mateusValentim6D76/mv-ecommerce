@@ -17,8 +17,11 @@ public class NewOrderMain {
         //sales.put("iPhone11Pro","4000");
         //sales.put("MacBook Pro 256GB","27000");
         var value = "123456, 454872, 78964, 96578";
+        var email = "Thank you for your order! We are processing your order!";
         var record = new ProducerRecord<String, String>("ECOMMERCE_NEW_ORDER", value, value);
+        var emailRecord = new ProducerRecord<String, String>("ECOMMERCE_SEND_EMAIL", email, email);
         producer.send(record, getCallback()).get();
+        producer.send(emailRecord, getCallback()).get();
     }
 
     private static Callback getCallback() {

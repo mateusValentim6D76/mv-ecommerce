@@ -8,29 +8,29 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
-public class FraudDetectorService {
+public class EmailService {
 
     public static void main(String[] args) throws InterruptedException {
         var consumer = new KafkaConsumer<String, String>(properties());
-        consumer.subscribe(Collections.singletonList("ECOMMERCE_NEW_ORDER"));
+        consumer.subscribe(Collections.singletonList("ECOMMERCE_SEND_EMAIL"));
         // Verificação se há mensagens
         while (true) {
-            final var  records = consumer.poll(Duration.ofMillis(100));
+            var records = consumer.poll(Duration.ofMillis(100));
             if (!records.isEmpty()) {
                 System.out.println("Records found " + records.count() + " registers");
                 for (var record: records){
                     System.out.println("----------------------------");
-                    System.out.println("Processing new order, checking fraud");
+                    System.out.println("Send email");
                     System.out.println(record.key());
                     System.out.println(record.partition());
                     System.out.println(record.offset());
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(1000);
                     } catch (Exception e){
                         //ignore
                         e.printStackTrace();
                     }
-                    System.out.println("Order processed");
+                    System.out.println("Email sent");
                 }
             }
         }
@@ -40,7 +40,7 @@ public class FraudDetectorService {
         properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, StringDeserializer.class.getSimpleName());
+        properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, EmailService.class.getSimpleName());
         return properties;
     }
 }
