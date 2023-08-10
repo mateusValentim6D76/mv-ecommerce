@@ -2,8 +2,6 @@ package br.com.mv.ecommerce;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 

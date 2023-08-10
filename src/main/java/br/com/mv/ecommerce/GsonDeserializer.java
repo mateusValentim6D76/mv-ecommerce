@@ -23,6 +23,6 @@ public class GsonDeserializer<T> implements Deserializer<T> {
     }
     @Override
     public T deserialize(String s, byte[] bytes) {
-        return gson.fromJson(new String (bytes), type);
+        return gson.fromJson(new String(bytes), type);
     }
 }
